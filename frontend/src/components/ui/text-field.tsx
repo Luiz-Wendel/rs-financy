@@ -48,7 +48,7 @@ export function TextField({
         {label}
       </label>
 
-      <div className="flex h-12 items-center gap-3 rounded-lg border border-gray-300 bg-white px-[13px]">
+      <div className="flex h-12 items-center gap-3 rounded-lg border border-gray-300 bg-white px-[13px] has-[input:read-only]:bg-gray-100">
         {Icon && (
           <Icon
             aria-hidden
@@ -56,7 +56,7 @@ export function TextField({
               'size-4 shrink-0',
               hasError
                 ? 'text-danger'
-                : 'text-gray-400 group-focus-within:text-brand-base! group-has-[input:not(:placeholder-shown)]:text-gray-800',
+                : 'text-gray-400 group-focus-within:text-brand-base! group-has-[input:not(:placeholder-shown):not(:read-only)]:text-gray-800 group-has-[input:read-only]:text-gray-500',
             )}
           />
         )}
@@ -68,7 +68,7 @@ export function TextField({
           disabled={disabled}
           aria-invalid={hasError || undefined}
           aria-describedby={message ? messageId : undefined}
-          className="min-w-0 flex-1 bg-transparent text-base leading-[18px] text-gray-800 caret-brand-base outline-none placeholder:text-gray-400 disabled:cursor-not-allowed"
+          className="min-w-0 flex-1 bg-transparent text-base leading-[18px] text-gray-800 caret-brand-base outline-none placeholder:text-gray-400 read-only:text-gray-500 disabled:cursor-not-allowed"
           {...props}
         />
 
