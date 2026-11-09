@@ -4,7 +4,11 @@ const envSchema = z.object({
   VITE_BACKEND_URL: z.url(),
 })
 
-const parsed = envSchema.safeParse(import.meta.env)
+export function parseEnv(source: Record<string, unknown>) {
+  return envSchema.safeParse(source)
+}
+
+const parsed = parseEnv(import.meta.env)
 
 if (!parsed.success) {
   throw new Error(
