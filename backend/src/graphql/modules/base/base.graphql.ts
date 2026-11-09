@@ -8,6 +8,7 @@ export const baseTypeDefs = /* GraphQL */ `
   scalar DateTime
 
   type Query
+  type Mutation
 `
 
 export const baseResolvers: Resolvers = {
