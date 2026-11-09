@@ -21,7 +21,7 @@ export async function executeOperation<TData = Record<string, unknown>>(
 ): Promise<ExecuteResult<TData>> {
   const response = await server.executeOperation<TData>(
     { query, variables },
-    { contextValue: { prisma, token: null, ...context } },
+    { contextValue: { prisma, userId: null, ...context } },
   )
 
   assert(response.body.kind === 'single')

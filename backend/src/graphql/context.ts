@@ -1,11 +1,13 @@
 import type { IncomingHttpHeaders } from 'node:http'
 
+import { verifyToken } from '../lib/jwt.js'
 import { prisma } from '../lib/prisma.js'
+import { unauthenticatedError } from './errors.js'
 
 export interface GraphQLContext {
   prisma: typeof prisma
-  /** Raw JWT sent in the `Authorization: Bearer <token>` header */
-  token: string | null
+  /** Id of the logged user, taken from a valid JWT. Null for anonymous requests. */
+  userId: string | null
 }
 
 export function getBearerToken(headers: IncomingHttpHeaders): string | null {
@@ -23,8 +25,19 @@ export async function buildContext({
 }: {
   req: { headers: IncomingHttpHeaders }
 }): Promise<GraphQLContext> {
+  const token = getBearerToken(req.headers)
+
   return {
     prisma,
-    token: getBearerToken(req.headers),
+    userId: token ? verifyToken(token) : null,
   }
+}
+
+/** Returns the logged user id or throws UNAUTHENTICATED. */
+export function requireAuth(context: GraphQLContext): string {
+  if (!context.userId) {
+    throw unauthenticatedError()
+  }
+
+  return context.userId
 }
