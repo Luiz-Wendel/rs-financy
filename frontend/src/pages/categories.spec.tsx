@@ -94,3 +94,13 @@ describe('Categories page dialogs', () => {
     expect(screen.getByLabelText('Título')).toHaveValue('Transporte')
   })
 })
+
+describe('Categories page errors', () => {
+  it('shows an error when the categories fail to load', async () => {
+    loginAs()
+    server.use(api.query('Categories', () => HttpResponse.error()))
+    renderApp('/categorias')
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível carregar os dados')
+  })
+})

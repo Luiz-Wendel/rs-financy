@@ -119,3 +119,42 @@ describe('Dashboard new transaction', () => {
     expect(await screen.findByRole('dialog', { name: 'Nova transação' })).toBeInTheDocument()
   })
 })
+
+describe('Dashboard errors', () => {
+  it('shows an error and loads again when retrying', async () => {
+    loginAs()
+    let attempts = 0
+    server.use(
+      api.query('Dashboard', () => {
+        attempts++
+        if (attempts === 1) return HttpResponse.error()
+        return HttpResponse.json({
+          data: {
+            __typename: 'Query',
+            summary: { __typename: 'Summary', balance: 100, monthIncome: 0, monthExpenses: 0 },
+            recentTransactions: { __typename: 'TransactionPage', items: [] },
+            categories: [],
+          },
+        })
+      }),
+    )
+    const { user } = renderApp('/')
+
+    expect(await screen.findByText('Não foi possível carregar os dados')).toBeInTheDocument()
+    expect(screen.getByText('Não foi possível conectar ao servidor')).toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'Tentar novamente' }))
+
+    expect(await screen.findByText('R$ 1,00')).toBeInTheDocument()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+  })
+
+  it('sets the page title', async () => {
+    loginAs()
+    mockDashboard()
+    renderApp('/')
+
+    await screen.findByText('R$ 12.847,32')
+    expect(document.title).toBe('Dashboard | Financy')
+  })
+})

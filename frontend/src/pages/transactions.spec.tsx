@@ -162,3 +162,15 @@ describe('Transactions page dialogs', () => {
     expect(await screen.findByRole('dialog', { name: 'Editar transação' })).toBeInTheDocument()
   })
 })
+
+describe('Transactions page errors', () => {
+  it('shows an error when the transactions fail to load', async () => {
+    loginAs()
+    mockTransactions()
+    server.use(api.query('Transactions', () => HttpResponse.error()))
+    renderApp('/transacoes')
+
+    expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível carregar os dados')
+    expect(screen.getByRole('button', { name: 'Tentar novamente' })).toBeInTheDocument()
+  })
+})

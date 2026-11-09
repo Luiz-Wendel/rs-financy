@@ -9,6 +9,8 @@ import { CategoryDialog } from '@/components/categories/category-dialog'
 import { CategoryStatCard } from '@/components/categories/category-stat-card'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { PageHeader } from '@/components/page-header'
+import { PageTitle } from '@/components/page-title'
+import { QueryError } from '@/components/query-error'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
@@ -34,7 +36,7 @@ function deleteDescription(category?: CategoryFieldsFragment) {
 }
 
 export function CategoriesPage() {
-  const { data } = useQuery(CategoriesQuery)
+  const { data, error, refetch } = useQuery(CategoriesQuery)
   const categories = data?.categories
   const [categoryToDelete, setCategoryToDelete] = useState<CategoryFieldsFragment>()
   const [categoryToEdit, setCategoryToEdit] = useState<CategoryFieldsFragment | 'new'>()
@@ -62,6 +64,7 @@ export function CategoriesPage() {
 
   return (
     <div className="flex flex-col gap-8">
+      <PageTitle>Categorias</PageTitle>
       <PageHeader
         title="Categorias"
         description="Organize suas transações por categorias"
@@ -99,7 +102,9 @@ export function CategoriesPage() {
         />
       </section>
 
-      {!categories ? (
+      {error && !categories ? (
+        <QueryError error={error} onRetry={() => void refetch()} />
+      ) : !categories ? (
         <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {Array.from({ length: 4 }, (_, index) => (
             <Skeleton key={index} className="h-56 rounded-xl" />

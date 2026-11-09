@@ -7,6 +7,8 @@ import { CategoriesQuery } from '@/api/categories'
 import { DeleteTransactionMutation, TransactionsQuery } from '@/api/transactions'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { PageHeader } from '@/components/page-header'
+import { PageTitle } from '@/components/page-title'
+import { QueryError } from '@/components/query-error'
 import { TransactionDialog } from '@/components/transactions/transaction-dialog'
 import {
   ALL,
@@ -46,7 +48,7 @@ export function TransactionsPage() {
   const [transactionToDelete, setTransactionToDelete] = useState<TransactionFieldsFragment>()
   const [transactionToEdit, setTransactionToEdit] = useState<TransactionFieldsFragment | 'new'>()
 
-  const { data, previousData } = useQuery(TransactionsQuery, {
+  const { data, previousData, error, refetch } = useQuery(TransactionsQuery, {
     variables: { filter: toApiFilter(filters, search), page, perPage: PER_PAGE },
   })
   const { data: categoriesData } = useQuery(CategoriesQuery)
@@ -78,6 +80,7 @@ export function TransactionsPage() {
 
   return (
     <div className="flex flex-col gap-8">
+      <PageTitle>Transações</PageTitle>
       <PageHeader
         title="Transações"
         description="Gerencie todas as suas transações financeiras"
@@ -95,21 +98,25 @@ export function TransactionsPage() {
         categories={categoriesData?.categories ?? []}
       />
 
-      <Card className="overflow-hidden">
-        <TransactionsTable
-          transactions={result?.items}
-          onEdit={setTransactionToEdit}
-          onDelete={setTransactionToDelete}
-        />
-        <Pagination
-          className="h-18 px-6"
-          page={result?.page ?? page}
-          perPage={result?.perPage ?? PER_PAGE}
-          total={result?.total ?? 0}
-          totalPages={result?.totalPages ?? 0}
-          onPageChange={setPage}
-        />
-      </Card>
+      {error && !result ? (
+        <QueryError error={error} onRetry={() => void refetch()} />
+      ) : (
+        <Card className="overflow-hidden">
+          <TransactionsTable
+            transactions={result?.items}
+            onEdit={setTransactionToEdit}
+            onDelete={setTransactionToDelete}
+          />
+          <Pagination
+            className="h-18 px-6"
+            page={result?.page ?? page}
+            perPage={result?.perPage ?? PER_PAGE}
+            total={result?.total ?? 0}
+            totalPages={result?.totalPages ?? 0}
+            onPageChange={setPage}
+          />
+        </Card>
+      )}
 
       <TransactionDialog
         open={Boolean(transactionToEdit)}
