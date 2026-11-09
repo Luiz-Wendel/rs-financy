@@ -14,3 +14,11 @@ afterEach(() => {
 })
 
 afterAll(() => server.close())
+
+// jsdom lacks some DOM APIs used by Radix UI (Select, Dialog)
+if (!Element.prototype.hasPointerCapture) {
+  Element.prototype.hasPointerCapture = () => false
+  Element.prototype.setPointerCapture = () => {}
+  Element.prototype.releasePointerCapture = () => {}
+}
+Element.prototype.scrollIntoView ??= () => {}
