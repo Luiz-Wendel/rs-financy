@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/client/react'
 import { type ReactNode, useState } from 'react'
 
+import { Toaster } from '@/components/ui/toaster'
 import { createApolloClient } from '@/lib/apollo'
 import { AuthProvider } from '@/lib/auth/auth-provider'
 import { notifySessionExpired } from '@/lib/auth/session-events'
@@ -14,6 +15,7 @@ export function AppProviders({ children }: { children: ReactNode }) {
   return (
     <ApolloProvider client={client}>
       <AuthProvider>{children}</AuthProvider>
+      <Toaster />
     </ApolloProvider>
   )
 }
