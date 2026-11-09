@@ -1,6 +1,12 @@
 import type { Prisma as PrismaTypes } from '../../../generated/prisma/client.js'
 import type { GraphQLContext } from '../../context.js'
-import type { PaginationInput, PeriodInput, TransactionFilterInput } from './transaction.schemas.js'
+import { findOwnedCategory } from '../category/category.service.js'
+import type {
+  CreateTransactionInput,
+  PaginationInput,
+  PeriodInput,
+  TransactionFilterInput,
+} from './transaction.schemas.js'
 
 type Prisma = GraphQLContext['prisma']
 
@@ -45,4 +51,17 @@ export async function listTransactions(
   ])
 
   return { items, total, page, perPage, totalPages: Math.ceil(total / perPage) }
+}
+
+export async function createTransaction(
+  prisma: Prisma,
+  userId: string,
+  input: CreateTransactionInput,
+) {
+  await findOwnedCategory(prisma, userId, input.categoryId)
+
+  return prisma.transaction.create({
+    data: { ...input, userId },
+    include: { category: true },
+  })
 }

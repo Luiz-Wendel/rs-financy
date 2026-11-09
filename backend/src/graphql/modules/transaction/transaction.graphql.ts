@@ -1,8 +1,12 @@
 import { requireAuth } from '../../context.js'
 import type { Resolvers } from '../../types.js'
 import { validateInput } from '../../validation.js'
-import { paginationSchema, transactionFilterSchema } from './transaction.schemas.js'
-import { listTransactions } from './transaction.service.js'
+import {
+  createTransactionSchema,
+  paginationSchema,
+  transactionFilterSchema,
+} from './transaction.schemas.js'
+import { createTransaction, listTransactions } from './transaction.service.js'
 
 export const transactionTypeDefs = /* GraphQL */ `
   enum TransactionType {
@@ -46,9 +50,22 @@ export const transactionTypeDefs = /* GraphQL */ `
     period: PeriodInput
   }
 
+  input CreateTransactionInput {
+    description: String!
+    type: TransactionType!
+    "Amount in cents, greater than zero"
+    amount: Int!
+    date: Date!
+    categoryId: ID!
+  }
+
   extend type Query {
     "Transactions of the logged user, newest first"
     transactions(filter: TransactionFilter, page: Int = 1, perPage: Int = 10): TransactionPage!
+  }
+
+  extend type Mutation {
+    createTransaction(input: CreateTransactionInput!): Transaction!
   }
 `
 
@@ -65,6 +82,14 @@ export const transactionResolvers: Resolvers = {
         requireAuth(context),
         validateInput(transactionFilterSchema, filter),
         validateInput(paginationSchema, { page, perPage }),
+      ),
+  },
+  Mutation: {
+    createTransaction: (_, { input }, context) =>
+      createTransaction(
+        context.prisma,
+        requireAuth(context),
+        validateInput(createTransactionSchema, input),
       ),
   },
 }
