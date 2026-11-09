@@ -1,8 +1,8 @@
 import { requireAuth } from '../../context.js'
 import type { Resolvers } from '../../types.js'
 import { validateInput } from '../../validation.js'
-import { createCategorySchema } from './category.schemas.js'
-import { createCategory, listCategories } from './category.service.js'
+import { createCategorySchema, updateCategorySchema } from './category.schemas.js'
+import { createCategory, listCategories, updateCategory } from './category.service.js'
 
 export const categoryTypeDefs = /* GraphQL */ `
   type Category {
@@ -28,6 +28,14 @@ export const categoryTypeDefs = /* GraphQL */ `
     color: String!
   }
 
+  "Only the informed fields are updated"
+  input UpdateCategoryInput {
+    title: String
+    description: String
+    icon: String
+    color: String
+  }
+
   extend type Query {
     "Categories of the logged user, ordered by title"
     categories: [Category!]!
@@ -35,6 +43,7 @@ export const categoryTypeDefs = /* GraphQL */ `
 
   extend type Mutation {
     createCategory(input: CreateCategoryInput!): Category!
+    updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
   }
 `
 
@@ -48,6 +57,13 @@ export const categoryResolvers: Resolvers = {
         context.prisma,
         requireAuth(context),
         validateInput(createCategorySchema, input),
+      ),
+    updateCategory: (_, { id, input }, context) =>
+      updateCategory(
+        context.prisma,
+        requireAuth(context),
+        id,
+        validateInput(updateCategorySchema, input),
       ),
   },
 }
