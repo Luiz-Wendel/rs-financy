@@ -11,4 +11,31 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    rolldownOptions: {
+      output: {
+        // Libraries change less often than the app: separate chunks stay cached between deploys
+        codeSplitting: {
+          groups: [
+            {
+              name: 'react',
+              test: /node_modules[\\/](react|react-dom|react-router|scheduler)[\\/]/,
+              priority: 30,
+            },
+            {
+              name: 'apollo',
+              test: /node_modules[\\/](@apollo|graphql|rxjs|@wry|optimism|tslib)/,
+              priority: 20,
+            },
+            {
+              name: 'forms',
+              test: /node_modules[\\/](zod|react-hook-form|@hookform)[\\/]/,
+              priority: 10,
+            },
+            { name: 'vendor', test: /node_modules[\\/]/, priority: 0 },
+          ],
+        },
+      },
+    },
+  },
 })
