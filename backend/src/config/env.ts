@@ -9,11 +9,17 @@ const envSchema = z.object({
   CORS_ORIGIN: z.string().default('http://localhost:5173'),
 })
 
-const parsed = envSchema.safeParse(process.env)
+export type Env = z.infer<typeof envSchema>
+
+export function parseEnv(source: Record<string, string | undefined>) {
+  return envSchema.safeParse(source)
+}
+
+const parsed = parseEnv(process.env)
 
 if (!parsed.success) {
   console.error('Invalid environment variables:', z.flattenError(parsed.error).fieldErrors)
   process.exit(1)
 }
 
-export const env = parsed.data
+export const env: Env = parsed.data
