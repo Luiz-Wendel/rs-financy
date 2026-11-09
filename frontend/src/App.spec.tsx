@@ -5,9 +5,9 @@ import { App } from './App'
 import { renderWithProviders } from './test/render'
 
 describe('App', () => {
-  it('renders the app name', () => {
+  it('renders the Financy logo', () => {
     renderWithProviders(<App />)
 
-    expect(screen.getByRole('heading', { name: 'Financy' })).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Financy' })).toBeInTheDocument()
   })
 })

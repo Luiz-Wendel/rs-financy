@@ -1,3 +1,9 @@
+import { Logo } from '@/components/logo'
+
 export function App() {
-  return <h1 className="p-8 text-2xl font-bold text-gray-800">Financy</h1>
+  return (
+    <main className="flex min-h-screen items-center justify-center">
+      <Logo />
+    </main>
+  )
 }
