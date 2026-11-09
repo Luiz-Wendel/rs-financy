@@ -8,7 +8,8 @@ type PasswordFieldProps = Omit<TextFieldProps, 'type' | 'endAdornment'>
 /** Password input with the lock icon and a show/hide toggle (eye icons from the Style Guide). */
 export function PasswordField({ icon = Lock, ...props }: PasswordFieldProps) {
   const [isVisible, setIsVisible] = useState(false)
-  const ToggleIcon = isVisible ? EyeClosed : Eye
+  // As in the layout: closed eye while the password is hidden
+  const ToggleIcon = isVisible ? Eye : EyeClosed
 
   return (
     <TextField
