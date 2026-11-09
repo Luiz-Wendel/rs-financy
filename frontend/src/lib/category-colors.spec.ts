@@ -12,6 +12,7 @@ describe('category colors', () => {
       tag: 'bg-blue-light text-blue-dark',
       icon: 'bg-blue-light text-blue-base',
       swatch: 'bg-blue-base',
+      text: 'text-blue-base',
     })
   })
 
