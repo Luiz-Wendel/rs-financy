@@ -1,6 +1,7 @@
 import { authResolvers, authTypeDefs } from './modules/auth/auth.graphql.js'
 import { baseResolvers, baseTypeDefs } from './modules/base/base.graphql.js'
 import { categoryResolvers, categoryTypeDefs } from './modules/category/category.graphql.js'
+import { dashboardResolvers, dashboardTypeDefs } from './modules/dashboard/dashboard.graphql.js'
 import { healthResolvers, healthTypeDefs } from './modules/health/health.graphql.js'
 import {
   transactionResolvers,
@@ -15,6 +16,7 @@ export const typeDefs = [
   authTypeDefs,
   categoryTypeDefs,
   transactionTypeDefs,
+  dashboardTypeDefs,
 ]
 
 export const resolvers = [
@@ -24,4 +26,5 @@ export const resolvers = [
   authResolvers,
   categoryResolvers,
   transactionResolvers,
+  dashboardResolvers,
 ]
