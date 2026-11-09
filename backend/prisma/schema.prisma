@@ -17,5 +17,23 @@ model User {
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
 
+  categories Category[]
+
   @@map("users")
+}
+
+model Category {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  icon        String
+  color       String
+  userId      String   @map("user_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("categories")
 }
