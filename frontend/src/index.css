@@ -10,6 +10,11 @@
 @theme {
   --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
 
+  /* Typography: the layout uses the Tailwind scale (xs 12, sm 14, base 16, xl 20, 2xl 24)
+     plus a 28px size for the big values of the summary cards */
+  --text-display: 1.75rem;
+  --text-display--line-height: 2rem;
+
   --color-*: initial;
 
   --color-white: #ffffff;

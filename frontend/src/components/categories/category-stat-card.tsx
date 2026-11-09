@@ -22,7 +22,7 @@ export function CategoryStatCard({
         {value === undefined ? (
           <Skeleton className="h-8 w-24" />
         ) : (
-          <p className="truncate text-[28px] leading-8 font-bold text-gray-800">{value}</p>
+          <p className="truncate text-display font-bold text-gray-800">{value}</p>
         )}
         <p className="text-xs font-medium tracking-wider text-gray-500 uppercase">{label}</p>
       </div>

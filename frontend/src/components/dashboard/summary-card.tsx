@@ -23,7 +23,7 @@ export function SummaryCard({ icon: Icon, iconClassName, label, value }: Summary
       {value === undefined ? (
         <Skeleton className="h-8 w-48" />
       ) : (
-        <p className="text-[28px] leading-8 font-bold text-gray-800">{formatCurrency(value)}</p>
+        <p className="text-display font-bold text-gray-800">{formatCurrency(value)}</p>
       )}
     </Card>
   )
