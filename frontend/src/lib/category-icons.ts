@@ -46,3 +46,23 @@ export const CATEGORY_ICON_NAMES = Object.keys(CATEGORY_ICONS) as CategoryIconNa
 export function getCategoryIcon(name: string): LucideIcon {
   return CATEGORY_ICONS[name as CategoryIconName] ?? Tag
 }
+
+/** Accessible names of the icons in the picker. */
+export const CATEGORY_ICON_LABELS: Record<CategoryIconName, string> = {
+  'briefcase-business': 'Trabalho',
+  'car-front': 'Carro',
+  'heart-pulse': 'Saúde',
+  'piggy-bank': 'Investimento',
+  'shopping-cart': 'Compras',
+  ticket: 'Entretenimento',
+  'tool-case': 'Ferramentas',
+  utensils: 'Alimentação',
+  'paw-print': 'Pets',
+  house: 'Casa',
+  gift: 'Presentes',
+  dumbbell: 'Academia',
+  'book-open': 'Educação',
+  'baggage-claim': 'Viagem',
+  mailbox: 'Correspondência',
+  'receipt-text': 'Contas',
+}

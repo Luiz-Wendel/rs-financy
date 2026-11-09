@@ -83,3 +83,14 @@ export function isCategoryColor(value: string): value is CategoryColor {
 export function getCategoryColorClasses(color: string): ColorClasses {
   return isCategoryColor(color) ? colorClasses[color] : neutralClasses
 }
+
+/** Accessible names of the colors in the picker. */
+export const CATEGORY_COLOR_LABELS: Record<CategoryColor, string> = {
+  green: 'Verde',
+  blue: 'Azul',
+  purple: 'Roxo',
+  pink: 'Rosa',
+  red: 'Vermelho',
+  orange: 'Laranja',
+  yellow: 'Amarelo',
+}
