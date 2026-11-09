@@ -25,3 +25,9 @@ export const CategoriesQuery = graphql(`
     }
   }
 `)
+
+export const DeleteCategoryMutation = graphql(`
+  mutation DeleteCategory($id: ID!) {
+    deleteCategory(id: $id)
+  }
+`)
