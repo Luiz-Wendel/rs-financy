@@ -5,8 +5,9 @@ import {
   createTransactionSchema,
   paginationSchema,
   transactionFilterSchema,
+  updateTransactionSchema,
 } from './transaction.schemas.js'
-import { createTransaction, listTransactions } from './transaction.service.js'
+import { createTransaction, listTransactions, updateTransaction } from './transaction.service.js'
 
 export const transactionTypeDefs = /* GraphQL */ `
   enum TransactionType {
@@ -59,6 +60,15 @@ export const transactionTypeDefs = /* GraphQL */ `
     categoryId: ID!
   }
 
+  "Only the informed fields are updated"
+  input UpdateTransactionInput {
+    description: String
+    type: TransactionType
+    amount: Int
+    date: Date
+    categoryId: ID
+  }
+
   extend type Query {
     "Transactions of the logged user, newest first"
     transactions(filter: TransactionFilter, page: Int = 1, perPage: Int = 10): TransactionPage!
@@ -66,6 +76,7 @@ export const transactionTypeDefs = /* GraphQL */ `
 
   extend type Mutation {
     createTransaction(input: CreateTransactionInput!): Transaction!
+    updateTransaction(id: ID!, input: UpdateTransactionInput!): Transaction!
   }
 `
 
@@ -90,6 +101,13 @@ export const transactionResolvers: Resolvers = {
         context.prisma,
         requireAuth(context),
         validateInput(createTransactionSchema, input),
+      ),
+    updateTransaction: (_, { id, input }, context) =>
+      updateTransaction(
+        context.prisma,
+        requireAuth(context),
+        id,
+        validateInput(updateTransactionSchema, input),
       ),
   },
 }

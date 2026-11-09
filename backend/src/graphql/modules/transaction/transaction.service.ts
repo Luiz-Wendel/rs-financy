@@ -1,11 +1,13 @@
 import type { Prisma as PrismaTypes } from '../../../generated/prisma/client.js'
 import type { GraphQLContext } from '../../context.js'
+import { notFoundError } from '../../errors.js'
 import { findOwnedCategory } from '../category/category.service.js'
 import type {
   CreateTransactionInput,
   PaginationInput,
   PeriodInput,
   TransactionFilterInput,
+  UpdateTransactionInput,
 } from './transaction.schemas.js'
 
 type Prisma = GraphQLContext['prisma']
@@ -62,6 +64,36 @@ export async function createTransaction(
 
   return prisma.transaction.create({
     data: { ...input, userId },
+    include: { category: true },
+  })
+}
+
+/** Finds a transaction of the user. Other users' transactions are reported as not found. */
+export async function findOwnedTransaction(prisma: Prisma, userId: string, id: string) {
+  const transaction = await prisma.transaction.findFirst({ where: { id, userId } })
+
+  if (!transaction) {
+    throw notFoundError('Transaction')
+  }
+
+  return transaction
+}
+
+export async function updateTransaction(
+  prisma: Prisma,
+  userId: string,
+  id: string,
+  input: UpdateTransactionInput,
+) {
+  await findOwnedTransaction(prisma, userId, id)
+
+  if (input.categoryId) {
+    await findOwnedCategory(prisma, userId, input.categoryId)
+  }
+
+  return prisma.transaction.update({
+    where: { id },
+    data: input,
     include: { category: true },
   })
 }
