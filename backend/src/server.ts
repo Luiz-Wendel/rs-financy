@@ -1,1 +1,3 @@
-console.log('Financy API')
+import { env } from './config/env.js'
+
+console.log(`Financy API (${env.NODE_ENV}) on port ${env.PORT}`)
