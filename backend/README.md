@@ -30,14 +30,16 @@ A API fica disponível em `http://localhost:4000/graphql`. Abrindo esse endereç
 
 ## Variáveis de ambiente
 
-| Variável         | Obrigatória | Padrão                  | Descrição                                                   |
-| ---------------- | ----------- | ----------------------- | ----------------------------------------------------------- |
-| `JWT_SECRET`     | sim         | —                       | Segredo usado para assinar os tokens (mínimo 16 caracteres) |
-| `DATABASE_URL`   | sim         | —                       | Caminho do banco SQLite, ex.: `file:./dev.db`               |
-| `JWT_EXPIRES_IN` | não         | `7d`                    | Validade do token                                           |
-| `PORT`           | não         | `4000`                  | Porta do servidor                                           |
-| `CORS_ORIGIN`    | não         | `http://localhost:5173` | Origens permitidas, separadas por vírgula (ou `*`)          |
-| `NODE_ENV`       | não         | `development`           | `development`, `test` ou `production`                       |
+| Variável           | Obrigatória | Padrão                  | Descrição                                                                                                 |
+| ------------------ | ----------- | ----------------------- | --------------------------------------------------------------------------------------------------------- |
+| `JWT_SECRET`       | sim         | —                       | Segredo usado para assinar os tokens (mínimo 16 caracteres)                                               |
+| `DATABASE_URL`     | sim         | —                       | Caminho do banco SQLite, ex.: `file:./dev.db`                                                             |
+| `JWT_EXPIRES_IN`   | não         | `7d`                    | Validade do token                                                                                         |
+| `PORT`             | não         | `4000`                  | Porta do servidor                                                                                         |
+| `CORS_ORIGIN`      | não         | `http://localhost:5173` | Origens permitidas, separadas por vírgula (ou `*`)                                                        |
+| `CORS_METHODS`     | não         | `GET,POST,OPTIONS`      | Métodos HTTP permitidos em requisições de outras origens                                                  |
+| `CORS_CREDENTIALS` | não         | `false`                 | Envia `Access-Control-Allow-Credentials` (cookies/credenciais). Exige origens explícitas em `CORS_ORIGIN` |
+| `NODE_ENV`         | não         | `development`           | `development`, `test` ou `production`                                                                     |
 
 Para gerar um segredo: `openssl rand -hex 32`.
 

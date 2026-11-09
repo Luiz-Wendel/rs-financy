@@ -18,6 +18,8 @@ describe('parseEnv', () => {
       PORT: 4000,
       JWT_EXPIRES_IN: '7d',
       CORS_ORIGIN: 'http://localhost:5173',
+      CORS_METHODS: 'GET,POST,OPTIONS',
+      CORS_CREDENTIALS: false,
     })
   })
 
@@ -45,5 +47,28 @@ describe('parseEnv', () => {
     const result = parseEnv({ ...validEnv, NODE_ENV: 'staging' })
 
     expect(result.success).toBe(false)
+  })
+
+  it('reads CORS_CREDENTIALS as a boolean', () => {
+    expect(parseEnv({ ...validEnv, CORS_CREDENTIALS: 'true' }).data?.CORS_CREDENTIALS).toBe(true)
+    expect(parseEnv({ ...validEnv, CORS_CREDENTIALS: 'false' }).data?.CORS_CREDENTIALS).toBe(false)
+    expect(parseEnv({ ...validEnv, CORS_CREDENTIALS: 'maybe' }).success).toBe(false)
+  })
+
+  it('rejects credentials together with any origin', () => {
+    const result = parseEnv({ ...validEnv, CORS_ORIGIN: '*', CORS_CREDENTIALS: 'true' })
+
+    expect(result.success).toBe(false)
+    expect(result.error?.issues[0]?.path).toEqual(['CORS_CREDENTIALS'])
+  })
+
+  it('accepts credentials with an explicit list of origins', () => {
+    const result = parseEnv({
+      ...validEnv,
+      CORS_ORIGIN: 'http://localhost:5173,https://financy.app',
+      CORS_CREDENTIALS: 'true',
+    })
+
+    expect(result.success).toBe(true)
   })
 })

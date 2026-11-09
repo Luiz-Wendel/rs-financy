@@ -4,18 +4,10 @@ import { expressMiddleware } from '@as-integrations/express5'
 import cors from 'cors'
 import express from 'express'
 
+import { buildCorsOptions } from './config/cors.js'
 import { env } from './config/env.js'
 import { buildContext } from './graphql/context.js'
 import { createApolloServer } from './graphql/server.js'
-
-export function parseCorsOrigin(value: string): true | string[] {
-  const origins = value
-    .split(',')
-    .map((origin) => origin.trim())
-    .filter(Boolean)
-
-  return origins.includes('*') ? true : origins
-}
 
 export async function createApp() {
   const app = express()
@@ -26,7 +18,13 @@ export async function createApp() {
 
   app.use(
     '/graphql',
-    cors({ origin: parseCorsOrigin(env.CORS_ORIGIN) }),
+    cors(
+      buildCorsOptions({
+        origin: env.CORS_ORIGIN,
+        methods: env.CORS_METHODS,
+        credentials: env.CORS_CREDENTIALS,
+      }),
+    ),
     express.json(),
     expressMiddleware(apollo, { context: buildContext }),
   )

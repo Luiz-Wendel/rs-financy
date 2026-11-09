@@ -2,20 +2,7 @@ import type { AddressInfo } from 'node:net'
 
 import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
-import { createApp, parseCorsOrigin } from './app.js'
-
-describe('parseCorsOrigin', () => {
-  it('splits a comma-separated list of origins', () => {
-    expect(parseCorsOrigin('http://localhost:5173, https://financy.app')).toEqual([
-      'http://localhost:5173',
-      'https://financy.app',
-    ])
-  })
-
-  it('allows any origin when "*" is present', () => {
-    expect(parseCorsOrigin('*')).toBe(true)
-  })
-})
+import { createApp } from './app.js'
 
 describe('HTTP server', () => {
   let app: Awaited<ReturnType<typeof createApp>>
@@ -51,6 +38,21 @@ describe('HTTP server', () => {
     const response = await postQuery('http://localhost:5173')
 
     expect(response.headers.get('access-control-allow-origin')).toBe('http://localhost:5173')
+  })
+
+  it('answers preflight requests with the allowed methods and without credentials', async () => {
+    const response = await fetch(url, {
+      method: 'OPTIONS',
+      headers: {
+        origin: 'http://localhost:5173',
+        'access-control-request-method': 'POST',
+        'access-control-request-headers': 'content-type,authorization',
+      },
+    })
+
+    expect(response.status).toBe(204)
+    expect(response.headers.get('access-control-allow-methods')).toBe('GET,POST,OPTIONS')
+    expect(response.headers.get('access-control-allow-credentials')).toBeNull()
   })
 
   it('does not send CORS headers for other origins', async () => {
