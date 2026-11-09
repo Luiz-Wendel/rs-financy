@@ -1,5 +1,6 @@
 import type { GraphQLContext } from '../../context.js'
 import { unauthenticatedError } from '../../errors.js'
+import type { UpdateProfileInput } from './user.schemas.js'
 
 type Prisma = GraphQLContext['prisma']
 
@@ -12,4 +13,10 @@ export async function getCurrentUser(prisma: Prisma, userId: string) {
   }
 
   return user
+}
+
+export async function updateProfile(prisma: Prisma, userId: string, { name }: UpdateProfileInput) {
+  await getCurrentUser(prisma, userId)
+
+  return prisma.user.update({ where: { id: userId }, data: { name } })
 }

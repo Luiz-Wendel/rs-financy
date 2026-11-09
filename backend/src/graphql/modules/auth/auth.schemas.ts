@@ -1,9 +1,11 @@
 import { z } from 'zod'
 
+import { nameSchema } from '../user/user.schemas.js'
+
 export const emailSchema = z.string().trim().toLowerCase().pipe(z.email('Invalid email'))
 
 export const registerSchema = z.object({
-  name: z.string().trim().min(1, 'Name is required').max(100),
+  name: nameSchema,
   email: emailSchema,
   password: z.string().min(8, 'Password must have at least 8 characters').max(72),
 })
