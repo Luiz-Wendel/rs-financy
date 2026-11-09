@@ -87,7 +87,8 @@ describe('Dashboard page', () => {
     })
     renderApp('/')
 
-    const section = (await screen.findByRole('heading', { name: 'Categorias' })).closest('div')!
+    await screen.findByText('Mercado')
+    const section = screen.getByRole('heading', { name: 'Categorias' }).closest('div')!
     const rows = within(section).getAllByRole('listitem')
     expect(rows.map((row) => row.textContent)).toEqual([
       'Alimentação12 itensR$ 542,30',
