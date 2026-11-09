@@ -32,14 +32,14 @@ export function TransactionTypeToggle({
       aria-label="Tipo da transação"
       value={value}
       onValueChange={(next) => onChange(next as TransactionType)}
-      className="grid grid-cols-2 gap-2 rounded-xl border border-gray-200 p-2"
+      className="grid grid-cols-2 gap-2 rounded-xl border border-gray-200 px-2 py-1.5"
     >
       {options.map(({ value: optionValue, label, icon: Icon, checkedClassName }) => (
         <RadioGroup.Item
           key={optionValue}
           value={optionValue}
           className={cn(
-            'flex h-11 items-center justify-center gap-3 rounded-lg border border-transparent text-base text-gray-600 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:text-gray-400',
+            'flex h-11.5 items-center justify-center gap-3 rounded-lg border border-transparent text-base text-gray-600 transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:text-gray-400',
             'data-[state=checked]:bg-gray-100 data-[state=checked]:font-medium data-[state=checked]:text-gray-800',
             value === optionValue && checkedClassName,
           )}

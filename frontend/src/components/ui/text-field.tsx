@@ -48,7 +48,7 @@ export function TextField({
         {label}
       </label>
 
-      <div className="flex items-center gap-3 rounded-lg border border-gray-300 bg-white px-[13px] py-[14px]">
+      <div className="flex h-12 items-center gap-3 rounded-lg border border-gray-300 bg-white px-[13px]">
         {Icon && (
           <Icon
             aria-hidden
