@@ -8,11 +8,11 @@ export const dashboardTypeDefs = /* GraphQL */ `
   "Values in cents"
   type Summary {
     "All-time income minus expenses"
-    balance: Int!
+    balance: SafeInt!
     "Income in the period"
-    monthIncome: Int!
+    monthIncome: SafeInt!
     "Expenses in the period"
-    monthExpenses: Int!
+    monthExpenses: SafeInt!
   }
 
   extend type Query {

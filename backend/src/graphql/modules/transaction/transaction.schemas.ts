@@ -32,8 +32,8 @@ export const transactionFilterSchema = filterObjectSchema
 export type PaginationInput = z.infer<typeof paginationSchema>
 export type PeriodInput = z.infer<typeof periodSchema>
 
-/** R$ 1.000.000,00 — keeps sums far from the GraphQL Int limit (2^31 - 1) */
-export const MAX_AMOUNT_IN_CENTS = 100_000_000
+/** R$ 1.000.000.000,00 */
+export const MAX_AMOUNT_IN_CENTS = 100_000_000_000
 
 export const createTransactionSchema = z.object({
   description: z.string().trim().min(1, 'Description is required').max(100),

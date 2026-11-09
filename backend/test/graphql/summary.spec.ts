@@ -103,3 +103,33 @@ describe('summary query', () => {
     expect(result.errors?.[0]?.extensions?.code).toBe(ErrorCode.UNAUTHENTICATED)
   })
 })
+
+describe('summary query with large amounts', () => {
+  beforeEach(resetDatabase)
+
+  it('sums amounts beyond the 32-bit integer limit', async () => {
+    const userId = (await createUser()).id
+    const categoryId = (await createCategory({ userId })).id
+    for (let index = 0; index < 3; index++) {
+      await createTransaction({
+        userId,
+        categoryId,
+        type: 'INCOME',
+        amount: 100_000_000_000,
+        date: new Date('2026-11-10T00:00:00.000Z'),
+      })
+    }
+
+    const result = await executeOperation(
+      `query { summary(period: { year: 2026, month: 11 }) { balance monthIncome } categories { totalAmount } }`,
+      {},
+      { userId },
+    )
+
+    expect(result.errors).toBeUndefined()
+    expect(result.data).toEqual({
+      summary: { balance: 300_000_000_000, monthIncome: 300_000_000_000 },
+      categories: [{ totalAmount: 300_000_000_000 }],
+    })
+  })
+})

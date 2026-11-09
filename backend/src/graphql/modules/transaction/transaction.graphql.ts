@@ -25,7 +25,7 @@ export const transactionTypeDefs = /* GraphQL */ `
     description: String!
     type: TransactionType!
     "Amount in cents, always positive (the sign comes from the type)"
-    amount: Int!
+    amount: SafeInt!
     date: Date!
     category: Category!
     createdAt: DateTime!
@@ -60,7 +60,7 @@ export const transactionTypeDefs = /* GraphQL */ `
     description: String!
     type: TransactionType!
     "Amount in cents, greater than zero"
-    amount: Int!
+    amount: SafeInt!
     date: Date!
     categoryId: ID!
   }
@@ -69,7 +69,7 @@ export const transactionTypeDefs = /* GraphQL */ `
   input UpdateTransactionInput {
     description: String
     type: TransactionType
-    amount: Int
+    amount: SafeInt
     date: Date
     categoryId: ID
   }

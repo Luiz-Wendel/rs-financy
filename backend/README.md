@@ -73,7 +73,7 @@ Cada usuário só enxerga e altera os próprios dados: acessar uma categoria ou 
 
 ### Convenções
 
-- **Valores monetários** são inteiros em **centavos** (`R$ 89,50` → `8950`) e sempre positivos; o sinal vem do `type` (`INCOME` ou `EXPENSE`).
+- **Valores monetários** são inteiros em **centavos** (`R$ 89,50` → `8950`) e sempre positivos; o sinal vem do `type` (`INCOME` ou `EXPENSE`). Cada transação vai até **R$ 1.000.000.000,00**. Usam o scalar `SafeInt` (inteiro de até 2^53 − 1), já que o `Int` do GraphQL tem 32 bits, e são guardados como `BigInt` no banco.
 - **`Date`** é uma data sem horário (`2026-11-30`); **`DateTime`** é um timestamp ISO 8601.
 - Nas mutations de edição, só os campos enviados são alterados.
 - Excluir uma categoria **exclui também todas as suas transações**.

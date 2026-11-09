@@ -21,7 +21,7 @@ export const categoryTypeDefs = /* GraphQL */ `
     "Number of transactions in this category"
     transactionsCount: Int!
     "Sum of the transaction amounts in cents"
-    totalAmount: Int!
+    totalAmount: SafeInt!
     createdAt: DateTime!
     updatedAt: DateTime!
   }

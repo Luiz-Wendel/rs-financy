@@ -1,4 +1,4 @@
-import { DateResolver, DateTimeResolver } from 'graphql-scalars'
+import { DateResolver, DateTimeResolver, SafeIntResolver } from 'graphql-scalars'
 
 import type { Resolvers } from '../../types.js'
 
@@ -10,6 +10,9 @@ export const baseTypeDefs = /* GraphQL */ `
   "Calendar date without time, e.g. 2026-11-09"
   scalar Date
 
+  "Integer up to 2^53 - 1 (Int is 32-bit). Used for money values in cents."
+  scalar SafeInt
+
   type Query
   type Mutation
 `
@@ -17,4 +20,5 @@ export const baseTypeDefs = /* GraphQL */ `
 export const baseResolvers: Resolvers = {
   DateTime: DateTimeResolver,
   Date: DateResolver,
+  SafeInt: SafeIntResolver,
 }

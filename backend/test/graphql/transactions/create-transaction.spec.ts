@@ -89,10 +89,23 @@ describe('createTransaction mutation', () => {
     ])
   })
 
+  it('accepts amounts up to R$ 1.000.000.000,00', async () => {
+    const result = await executeOperation(
+      CREATE_TRANSACTION,
+      { input: { ...input, amount: 100_000_000_000 } },
+      { userId },
+    )
+
+    expect(result.errors).toBeUndefined()
+    expect(result.data?.createTransaction).toMatchObject({ amount: 100_000_000_000 })
+    const transaction = await prisma.transaction.findFirstOrThrow()
+    expect(transaction.amount).toBe(100_000_000_000n)
+  })
+
   it('fails with BAD_USER_INPUT for an amount above the limit', async () => {
     const result = await executeOperation(
       CREATE_TRANSACTION,
-      { input: { ...input, amount: 100_000_001 } },
+      { input: { ...input, amount: 100_000_000_001 } },
       { userId },
     )
 

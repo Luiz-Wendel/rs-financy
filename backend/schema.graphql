@@ -4,6 +4,11 @@ scalar DateTime
 """Calendar date without time, e.g. 2026-11-09"""
 scalar Date
 
+"""
+Integer up to 2^53 - 1 (Int is 32-bit). Used for money values in cents.
+"""
+scalar SafeInt
+
 type Query {
   """Returns 'ok' when the API is up"""
   health: String!
@@ -91,7 +96,7 @@ type Category {
   transactionsCount: Int!
 
   """Sum of the transaction amounts in cents"""
-  totalAmount: Int!
+  totalAmount: SafeInt!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -122,7 +127,7 @@ type Transaction {
   type: TransactionType!
 
   """Amount in cents, always positive (the sign comes from the type)"""
-  amount: Int!
+  amount: SafeInt!
   date: Date!
   category: Category!
   createdAt: DateTime!
@@ -161,7 +166,7 @@ input CreateTransactionInput {
   type: TransactionType!
 
   """Amount in cents, greater than zero"""
-  amount: Int!
+  amount: SafeInt!
   date: Date!
   categoryId: ID!
 }
@@ -170,7 +175,7 @@ input CreateTransactionInput {
 input UpdateTransactionInput {
   description: String
   type: TransactionType
-  amount: Int
+  amount: SafeInt
   date: Date
   categoryId: ID
 }
@@ -178,11 +183,11 @@ input UpdateTransactionInput {
 """Values in cents"""
 type Summary {
   """All-time income minus expenses"""
-  balance: Int!
+  balance: SafeInt!
 
   """Income in the period"""
-  monthIncome: Int!
+  monthIncome: SafeInt!
 
   """Expenses in the period"""
-  monthExpenses: Int!
+  monthExpenses: SafeInt!
 }
