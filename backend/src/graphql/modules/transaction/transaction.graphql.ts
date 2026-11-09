@@ -7,7 +7,12 @@ import {
   transactionFilterSchema,
   updateTransactionSchema,
 } from './transaction.schemas.js'
-import { createTransaction, listTransactions, updateTransaction } from './transaction.service.js'
+import {
+  createTransaction,
+  deleteTransaction,
+  listTransactions,
+  updateTransaction,
+} from './transaction.service.js'
 
 export const transactionTypeDefs = /* GraphQL */ `
   enum TransactionType {
@@ -77,6 +82,8 @@ export const transactionTypeDefs = /* GraphQL */ `
   extend type Mutation {
     createTransaction(input: CreateTransactionInput!): Transaction!
     updateTransaction(id: ID!, input: UpdateTransactionInput!): Transaction!
+    "Returns the deleted id"
+    deleteTransaction(id: ID!): ID!
   }
 `
 
@@ -109,5 +116,7 @@ export const transactionResolvers: Resolvers = {
         id,
         validateInput(updateTransactionSchema, input),
       ),
+    deleteTransaction: (_, { id }, context) =>
+      deleteTransaction(context.prisma, requireAuth(context), id),
   },
 }

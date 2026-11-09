@@ -97,3 +97,11 @@ export async function updateTransaction(
     include: { category: true },
   })
 }
+
+export async function deleteTransaction(prisma: Prisma, userId: string, id: string) {
+  await findOwnedTransaction(prisma, userId, id)
+
+  await prisma.transaction.delete({ where: { id } })
+
+  return id
+}
