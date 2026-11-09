@@ -22,7 +22,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "db:seed": "prisma db seed"
+    "db:seed": "prisma db seed",
+    "schema:print": "tsx src/scripts/print-schema.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

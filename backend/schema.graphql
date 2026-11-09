@@ -1,0 +1,188 @@
+"""ISO 8601 date-time string, e.g. 2026-11-09T12:00:00.000Z"""
+scalar DateTime
+
+"""Calendar date without time, e.g. 2026-11-09"""
+scalar Date
+
+type Query {
+  """Returns 'ok' when the API is up"""
+  health: String!
+
+  """The logged user"""
+  me: User!
+
+  """Categories of the logged user, ordered by title"""
+  categories: [Category!]!
+
+  """Transactions of the logged user, newest first"""
+  transactions(filter: TransactionFilter, page: Int = 1, perPage: Int = 10): TransactionPage!
+
+  """
+  Totals of the logged user. The period defaults to the current month (UTC);
+  clients should send their local month.
+  """
+  summary(period: PeriodInput): Summary!
+}
+
+type Mutation {
+  """Updates the logged user's profile. The email can't be changed."""
+  updateProfile(input: UpdateProfileInput!): User!
+
+  """Creates an account and returns a session token"""
+  register(input: RegisterInput!): AuthPayload!
+
+  """Authenticates with email and password and returns a session token"""
+  login(input: LoginInput!): AuthPayload!
+  createCategory(input: CreateCategoryInput!): Category!
+  updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
+
+  """
+  Deletes the category and all of its transactions. Returns the deleted id.
+  """
+  deleteCategory(id: ID!): ID!
+  createTransaction(input: CreateTransactionInput!): Transaction!
+  updateTransaction(id: ID!, input: UpdateTransactionInput!): Transaction!
+
+  """Returns the deleted id"""
+  deleteTransaction(id: ID!): ID!
+}
+
+type User {
+  id: ID!
+  name: String!
+  email: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input UpdateProfileInput {
+  name: String!
+}
+
+type AuthPayload {
+  """JWT to be sent as 'Authorization: Bearer <token>'"""
+  token: String!
+  user: User!
+}
+
+input RegisterInput {
+  name: String!
+  email: String!
+  password: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type Category {
+  id: ID!
+  title: String!
+  description: String
+
+  """Lucide icon name, e.g. 'utensils'"""
+  icon: String!
+
+  """Color token: green, blue, purple, pink, red, orange or yellow"""
+  color: String!
+
+  """Number of transactions in this category"""
+  transactionsCount: Int!
+
+  """Sum of the transaction amounts in cents"""
+  totalAmount: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+input CreateCategoryInput {
+  title: String!
+  description: String
+  icon: String!
+  color: String!
+}
+
+"""Only the informed fields are updated"""
+input UpdateCategoryInput {
+  title: String
+  description: String
+  icon: String
+  color: String
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+type Transaction {
+  id: ID!
+  description: String!
+  type: TransactionType!
+
+  """Amount in cents, always positive (the sign comes from the type)"""
+  amount: Int!
+  date: Date!
+  category: Category!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type TransactionPage {
+  items: [Transaction!]!
+
+  """Total of transactions matching the filters"""
+  total: Int!
+  page: Int!
+  perPage: Int!
+  totalPages: Int!
+}
+
+input PeriodInput {
+  year: Int!
+
+  """1 (January) to 12 (December)"""
+  month: Int!
+}
+
+input TransactionFilter {
+  """Case-insensitive search in the description"""
+  search: String
+  type: TransactionType
+  categoryId: ID
+
+  """Only transactions in this month"""
+  period: PeriodInput
+}
+
+input CreateTransactionInput {
+  description: String!
+  type: TransactionType!
+
+  """Amount in cents, greater than zero"""
+  amount: Int!
+  date: Date!
+  categoryId: ID!
+}
+
+"""Only the informed fields are updated"""
+input UpdateTransactionInput {
+  description: String
+  type: TransactionType
+  amount: Int
+  date: Date
+  categoryId: ID
+}
+
+"""Values in cents"""
+type Summary {
+  """All-time income minus expenses"""
+  balance: Int!
+
+  """Income in the period"""
+  monthIncome: Int!
+
+  """Expenses in the period"""
+  monthExpenses: Int!
+}
