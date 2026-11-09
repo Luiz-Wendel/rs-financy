@@ -30,7 +30,7 @@ const transactionSchema = z.object({
     .number()
     .int()
     .positive('Informe um valor maior que zero')
-    .max(MAX_AMOUNT_IN_CENTS, 'O valor máximo é R$ 1.000.000,00'),
+    .max(MAX_AMOUNT_IN_CENTS, 'O valor máximo é R$ 1.000.000.000,00'),
   categoryId: z.string().min(1, 'Selecione uma categoria'),
 })
 

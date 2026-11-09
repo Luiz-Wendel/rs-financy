@@ -7,6 +7,7 @@ describe('format', () => {
     expect(formatCurrency(1284732)).toBe('R$ 12.847,32')
     expect(formatCurrency(0)).toBe('R$ 0,00')
     expect(formatCurrency(-8950)).toBe('-R$ 89,50')
+    expect(formatCurrency(100_000_000_000)).toBe('R$ 1.000.000.000,00')
   })
 
   it('adds the sign of the transaction type', () => {

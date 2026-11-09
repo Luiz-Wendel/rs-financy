@@ -11,7 +11,8 @@ describe('currency input', () => {
   })
 
   it('limits the amount to the API maximum', () => {
-    expect(parseCurrencyInput('99.999.999.999,99')).toBe(100_000_000)
+    expect(parseCurrencyInput('9.999.999.999.999,99')).toBe(100_000_000_000)
+    expect(parseCurrencyInput('1.000.000.000,00')).toBe(100_000_000_000)
   })
 
   it('formats cents with two decimals', () => {

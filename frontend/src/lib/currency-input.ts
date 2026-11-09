@@ -1,9 +1,10 @@
-/** Up to R$ 1.000.000,00, the limit accepted by the API */
-export const MAX_AMOUNT_IN_CENTS = 100_000_000
+/** Up to R$ 1.000.000.000,00, the limit accepted by the API */
+export const MAX_AMOUNT_IN_CENTS = 100_000_000_000
 
 /** Reads the typed digits as cents: "1.234,5" + "6" → 123456 (like a cash register). */
 export function parseCurrencyInput(value: string): number {
-  const digits = value.replace(/\D/g, '').slice(0, 11)
+  // One digit more than the limit is enough to reach it; extra digits are ignored
+  const digits = value.replace(/\D/g, '').slice(0, 13)
   return Math.min(Number(digits || 0), MAX_AMOUNT_IN_CENTS)
 }
 
