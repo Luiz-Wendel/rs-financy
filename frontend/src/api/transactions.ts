@@ -12,3 +12,23 @@ export const TransactionFieldsFragment = graphql(`
     }
   }
 `)
+
+export const TransactionsQuery = graphql(`
+  query Transactions($filter: TransactionFilter, $page: Int, $perPage: Int) {
+    transactions(filter: $filter, page: $page, perPage: $perPage) {
+      items {
+        ...TransactionFields
+      }
+      total
+      page
+      perPage
+      totalPages
+    }
+  }
+`)
+
+export const DeleteTransactionMutation = graphql(`
+  mutation DeleteTransaction($id: ID!) {
+    deleteTransaction(id: $id)
+  }
+`)
