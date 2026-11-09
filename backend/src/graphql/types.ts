@@ -1,7 +1,8 @@
-import type { GraphQLFieldResolver } from 'graphql'
+import type { GraphQLFieldResolver, GraphQLScalarType } from 'graphql'
 
 import type { GraphQLContext } from './context.js'
 
-type FieldResolvers = Record<string, GraphQLFieldResolver<unknown, GraphQLContext>>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type FieldResolver = GraphQLFieldResolver<any, GraphQLContext, any>
 
-export type Resolvers = Record<string, FieldResolvers>
+export type Resolvers = Record<string, Record<string, FieldResolver> | GraphQLScalarType>

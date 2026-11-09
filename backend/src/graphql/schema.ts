@@ -1,5 +1,6 @@
+import { baseResolvers, baseTypeDefs } from './modules/base/base.graphql.js'
 import { healthResolvers, healthTypeDefs } from './modules/health/health.graphql.js'
 
-export const typeDefs = [healthTypeDefs]
+export const typeDefs = [baseTypeDefs, healthTypeDefs]
 
-export const resolvers = [healthResolvers]
+export const resolvers = [baseResolvers, healthResolvers]

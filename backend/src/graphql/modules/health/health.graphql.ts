@@ -1,7 +1,7 @@
 import type { Resolvers } from '../../types.js'
 
 export const healthTypeDefs = /* GraphQL */ `
-  type Query {
+  extend type Query {
     "Returns 'ok' when the API is up"
     health: String!
   }
