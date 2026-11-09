@@ -147,3 +147,18 @@ describe('Transactions page', () => {
     expect(await screen.findByText('Nenhuma transação encontrada.')).toBeInTheDocument()
   })
 })
+
+describe('Transactions page dialogs', () => {
+  it('opens the form to create and to edit a transaction', async () => {
+    loginAs()
+    mockTransactions()
+    const { user } = renderApp('/transacoes')
+
+    await user.click(await screen.findByRole('button', { name: 'Nova transação' }))
+    expect(await screen.findByRole('dialog', { name: 'Nova transação' })).toBeInTheDocument()
+    await user.keyboard('{Escape}')
+
+    await user.click(await screen.findByRole('button', { name: 'Editar Jantar no Restaurante' }))
+    expect(await screen.findByRole('dialog', { name: 'Editar transação' })).toBeInTheDocument()
+  })
+})

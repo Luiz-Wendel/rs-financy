@@ -7,6 +7,7 @@ import { CategoriesQuery } from '@/api/categories'
 import { DeleteTransactionMutation, TransactionsQuery } from '@/api/transactions'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { PageHeader } from '@/components/page-header'
+import { TransactionDialog } from '@/components/transactions/transaction-dialog'
 import {
   ALL,
   TransactionFilters,
@@ -43,8 +44,7 @@ export function TransactionsPage() {
   const [page, setPage] = useState(1)
   const search = useDebouncedValue(filters.search)
   const [transactionToDelete, setTransactionToDelete] = useState<TransactionFieldsFragment>()
-  // The transaction dialog (create/edit) is added with the "Nova transação" form
-  const [, setTransactionToEdit] = useState<TransactionFieldsFragment | 'new'>()
+  const [transactionToEdit, setTransactionToEdit] = useState<TransactionFieldsFragment | 'new'>()
 
   const { data, previousData } = useQuery(TransactionsQuery, {
     variables: { filter: toApiFilter(filters, search), page, perPage: PER_PAGE },
@@ -110,6 +110,12 @@ export function TransactionsPage() {
           onPageChange={setPage}
         />
       </Card>
+
+      <TransactionDialog
+        open={Boolean(transactionToEdit)}
+        onOpenChange={(open) => !open && setTransactionToEdit(undefined)}
+        transaction={transactionToEdit === 'new' ? undefined : transactionToEdit}
+      />
 
       <ConfirmDialog
         open={Boolean(transactionToDelete)}

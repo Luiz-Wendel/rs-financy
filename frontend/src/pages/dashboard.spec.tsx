@@ -107,3 +107,15 @@ describe('Dashboard page', () => {
     expect(screen.getByText('Nenhuma categoria criada ainda.')).toBeInTheDocument()
   })
 })
+
+describe('Dashboard new transaction', () => {
+  it('opens the transaction form', async () => {
+    loginAs()
+    mockDashboard()
+    const { user } = renderApp('/')
+
+    await user.click(await screen.findByRole('button', { name: 'Nova transação' }))
+
+    expect(await screen.findByRole('dialog', { name: 'Nova transação' })).toBeInTheDocument()
+  })
+})

@@ -6,13 +6,13 @@ import { DashboardQuery } from '@/api/dashboard'
 import { CategoriesOverview } from '@/components/dashboard/categories-overview'
 import { RecentTransactions } from '@/components/dashboard/recent-transactions'
 import { SummaryCard } from '@/components/dashboard/summary-card'
+import { TransactionDialog } from '@/components/transactions/transaction-dialog'
 import { getCurrentPeriod } from '@/lib/period'
 
 export function DashboardPage() {
   const [period] = useState(getCurrentPeriod)
   const { data } = useQuery(DashboardQuery, { variables: { period } })
-  // The transaction dialog is added with the "Nova transação" form
-  const [, setIsTransactionDialogOpen] = useState(false)
+  const [isTransactionDialogOpen, setIsTransactionDialogOpen] = useState(false)
 
   return (
     <div className="flex flex-col gap-6">
@@ -47,6 +47,8 @@ export function DashboardPage() {
         />
         <CategoriesOverview categories={data?.categories} />
       </div>
+
+      <TransactionDialog open={isTransactionDialogOpen} onOpenChange={setIsTransactionDialogOpen} />
     </div>
   )
 }

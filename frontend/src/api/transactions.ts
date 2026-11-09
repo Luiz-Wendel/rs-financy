@@ -32,3 +32,19 @@ export const DeleteTransactionMutation = graphql(`
     deleteTransaction(id: $id)
   }
 `)
+
+export const CreateTransactionMutation = graphql(`
+  mutation CreateTransaction($input: CreateTransactionInput!) {
+    createTransaction(input: $input) {
+      ...TransactionFields
+    }
+  }
+`)
+
+export const UpdateTransactionMutation = graphql(`
+  mutation UpdateTransaction($id: ID!, $input: UpdateTransactionInput!) {
+    updateTransaction(id: $id, input: $input) {
+      ...TransactionFields
+    }
+  }
+`)
