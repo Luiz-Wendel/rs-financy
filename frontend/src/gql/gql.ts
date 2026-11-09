@@ -18,12 +18,14 @@ type Documents = {
     "\n  query Me {\n    me {\n      ...UserFields\n    }\n  }\n": typeof types.MeDocument,
     "\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": typeof types.RegisterDocument,
+    "\n  query Health {\n    health\n  }\n": typeof types.HealthDocument,
 };
 const documents: Documents = {
     "\n  fragment UserFields on User {\n    id\n    name\n    email\n  }\n": types.UserFieldsFragmentDoc,
     "\n  query Me {\n    me {\n      ...UserFields\n    }\n  }\n": types.MeDocument,
     "\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": types.RegisterDocument,
+    "\n  query Health {\n    health\n  }\n": types.HealthDocument,
 };
 
 /**
@@ -56,6 +58,10 @@ export function graphql(source: "\n  mutation Login($input: LoginInput!) {\n    
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query Health {\n    health\n  }\n"): (typeof documents)["\n  query Health {\n    health\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
