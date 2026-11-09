@@ -64,7 +64,7 @@ export function SelectField({
           id={id}
           aria-invalid={hasError || undefined}
           aria-describedby={message ? messageId : undefined}
-          className="flex w-full items-center gap-3 rounded-lg border border-gray-300 bg-white px-[13px] py-[15px] text-left text-base leading-[18px] text-gray-800 outline-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed data-placeholder:text-gray-400 [&>span]:min-w-0 [&>span]:flex-1 [&>span]:truncate"
+          className="flex w-full items-center gap-3 rounded-lg border border-gray-300 bg-white px-[13px] py-[14px] text-left text-base leading-[18px] text-gray-800 outline-none focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed data-placeholder:text-gray-400 [&>span]:min-w-0 [&>span]:flex-1 [&>span]:truncate"
         >
           {Icon && (
             <Icon
