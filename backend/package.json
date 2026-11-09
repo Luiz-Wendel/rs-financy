@@ -45,7 +45,9 @@
     "esbuild@0.28.2": true,
     "prisma@7.10.1": true,
     "@prisma/engines@7.10.1": true,
-    "better-sqlite3@12.11.1": true
+    "better-sqlite3@12.11.1": true,
+    "@apollo/protobufjs": false,
+    "fsevents": false
   },
   "dependencies": {
     "@apollo/server": "^5.5.1",
