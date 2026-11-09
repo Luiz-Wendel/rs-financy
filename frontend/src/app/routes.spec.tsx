@@ -67,7 +67,7 @@ describe('routes', () => {
       expect(await screen.findByRole('heading', { name: 'Transações' })).toBeInTheDocument()
 
       await user.click(screen.getByRole('link', { name: 'Meu perfil' }))
-      expect(await screen.findByRole('heading', { name: 'Perfil' })).toBeInTheDocument()
+      expect(await screen.findByRole('heading', { name: 'Conta Teste' })).toBeInTheDocument()
     })
 
     it("shows the user's initials in the navbar", async () => {

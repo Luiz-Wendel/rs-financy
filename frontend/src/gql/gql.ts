@@ -18,6 +18,7 @@ type Documents = {
     "\n  query Me {\n    me {\n      ...UserFields\n    }\n  }\n": typeof types.MeDocument,
     "\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": typeof types.LoginDocument,
     "\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": typeof types.RegisterDocument,
+    "\n  mutation UpdateProfile($input: UpdateProfileInput!) {\n    updateProfile(input: $input) {\n      ...UserFields\n    }\n  }\n": typeof types.UpdateProfileDocument,
     "\n  fragment CategoryBaseFields on Category {\n    id\n    title\n    description\n    icon\n    color\n  }\n": typeof types.CategoryBaseFieldsFragmentDoc,
     "\n  fragment CategoryFields on Category {\n    ...CategoryBaseFields\n    transactionsCount\n    totalAmount\n  }\n": typeof types.CategoryFieldsFragmentDoc,
     "\n  query Categories {\n    categories {\n      ...CategoryFields\n    }\n  }\n": typeof types.CategoriesDocument,
@@ -37,6 +38,7 @@ const documents: Documents = {
     "\n  query Me {\n    me {\n      ...UserFields\n    }\n  }\n": types.MeDocument,
     "\n  mutation Login($input: LoginInput!) {\n    login(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": types.LoginDocument,
     "\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n": types.RegisterDocument,
+    "\n  mutation UpdateProfile($input: UpdateProfileInput!) {\n    updateProfile(input: $input) {\n      ...UserFields\n    }\n  }\n": types.UpdateProfileDocument,
     "\n  fragment CategoryBaseFields on Category {\n    id\n    title\n    description\n    icon\n    color\n  }\n": types.CategoryBaseFieldsFragmentDoc,
     "\n  fragment CategoryFields on Category {\n    ...CategoryBaseFields\n    transactionsCount\n    totalAmount\n  }\n": types.CategoryFieldsFragmentDoc,
     "\n  query Categories {\n    categories {\n      ...CategoryFields\n    }\n  }\n": types.CategoriesDocument,
@@ -82,6 +84,10 @@ export function graphql(source: "\n  mutation Login($input: LoginInput!) {\n    
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n"): (typeof documents)["\n  mutation Register($input: RegisterInput!) {\n    register(input: $input) {\n      token\n      user {\n        ...UserFields\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation UpdateProfile($input: UpdateProfileInput!) {\n    updateProfile(input: $input) {\n      ...UserFields\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateProfile($input: UpdateProfileInput!) {\n    updateProfile(input: $input) {\n      ...UserFields\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

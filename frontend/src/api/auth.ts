@@ -37,3 +37,11 @@ export const RegisterMutation = graphql(`
     }
   }
 `)
+
+export const UpdateProfileMutation = graphql(`
+  mutation UpdateProfile($input: UpdateProfileInput!) {
+    updateProfile(input: $input) {
+      ...UserFields
+    }
+  }
+`)
