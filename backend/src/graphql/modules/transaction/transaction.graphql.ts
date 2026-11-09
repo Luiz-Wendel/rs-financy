@@ -1,7 +1,7 @@
 import { requireAuth } from '../../context.js'
 import type { Resolvers } from '../../types.js'
 import { validateInput } from '../../validation.js'
-import { paginationSchema } from './transaction.schemas.js'
+import { paginationSchema, transactionFilterSchema } from './transaction.schemas.js'
 import { listTransactions } from './transaction.service.js'
 
 export const transactionTypeDefs = /* GraphQL */ `
@@ -31,9 +31,24 @@ export const transactionTypeDefs = /* GraphQL */ `
     totalPages: Int!
   }
 
+  input PeriodInput {
+    year: Int!
+    "1 (January) to 12 (December)"
+    month: Int!
+  }
+
+  input TransactionFilter {
+    "Case-insensitive search in the description"
+    search: String
+    type: TransactionType
+    categoryId: ID
+    "Only transactions in this month"
+    period: PeriodInput
+  }
+
   extend type Query {
     "Transactions of the logged user, newest first"
-    transactions(page: Int = 1, perPage: Int = 10): TransactionPage!
+    transactions(filter: TransactionFilter, page: Int = 1, perPage: Int = 10): TransactionPage!
   }
 `
 
@@ -44,10 +59,11 @@ export const transactionResolvers: Resolvers = {
       prisma.category.findUniqueOrThrow({ where: { id: transaction.categoryId } }),
   },
   Query: {
-    transactions: (_, { page, perPage }, context) =>
+    transactions: (_, { filter, page, perPage }, context) =>
       listTransactions(
         context.prisma,
         requireAuth(context),
+        validateInput(transactionFilterSchema, filter),
         validateInput(paginationSchema, { page, perPage }),
       ),
   },
