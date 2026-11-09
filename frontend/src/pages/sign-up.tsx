@@ -9,6 +9,7 @@ import { z } from 'zod'
 import { RegisterMutation } from '@/api/auth'
 import { paths } from '@/app/paths'
 import { AuthCard } from '@/components/auth-card'
+import { PageTitle } from '@/components/page-title'
 import { Button } from '@/components/ui/button'
 import { Divider } from '@/components/ui/divider'
 import { PasswordField } from '@/components/ui/password-field'
@@ -51,52 +52,55 @@ export function SignUpPage() {
   }
 
   return (
-    <AuthCard title="Criar conta" description="Comece a controlar suas finanças ainda hoje">
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
+    <>
+      <PageTitle>Criar conta</PageTitle>
+      <AuthCard title="Criar conta" description="Comece a controlar suas finanças ainda hoje">
+        <form onSubmit={handleSubmit(onSubmit)} noValidate className="flex flex-col gap-6">
+          <div className="flex flex-col gap-4">
+            <TextField
+              label="Nome completo"
+              icon={UserRound}
+              autoComplete="name"
+              placeholder="Seu nome completo"
+              error={errors.name?.message}
+              {...register('name')}
+            />
+            <TextField
+              label="E-mail"
+              icon={Mail}
+              type="email"
+              autoComplete="email"
+              placeholder="mail@exemplo.com"
+              error={errors.email?.message}
+              {...register('email')}
+            />
+            <PasswordField
+              label="Senha"
+              autoComplete="new-password"
+              placeholder="Digite sua senha"
+              helper={PASSWORD_HELPER}
+              error={errors.password?.message}
+              {...register('password')}
+            />
+          </div>
+
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? 'Cadastrando…' : 'Cadastrar'}
+          </Button>
+        </form>
+
+        <Divider label="ou" />
+
         <div className="flex flex-col gap-4">
-          <TextField
-            label="Nome completo"
-            icon={UserRound}
-            autoComplete="name"
-            placeholder="Seu nome completo"
-            error={errors.name?.message}
-            {...register('name')}
-          />
-          <TextField
-            label="E-mail"
-            icon={Mail}
-            type="email"
-            autoComplete="email"
-            placeholder="mail@exemplo.com"
-            error={errors.email?.message}
-            {...register('email')}
-          />
-          <PasswordField
-            label="Senha"
-            autoComplete="new-password"
-            placeholder="Digite sua senha"
-            helper={PASSWORD_HELPER}
-            error={errors.password?.message}
-            {...register('password')}
-          />
+          <p className="text-center text-sm text-gray-600">Já tem uma conta?</p>
+          <Button asChild variant="outline">
+            <Link to={paths.home}>
+              <LogIn aria-hidden />
+              Fazer login
+            </Link>
+          </Button>
         </div>
-
-        <Button type="submit" disabled={isSubmitting}>
-          {isSubmitting ? 'Cadastrando…' : 'Cadastrar'}
-        </Button>
-      </form>
-
-      <Divider label="ou" />
-
-      <div className="flex flex-col gap-4">
-        <p className="text-center text-sm text-gray-600">Já tem uma conta?</p>
-        <Button asChild variant="outline">
-          <Link to={paths.home}>
-            <LogIn aria-hidden />
-            Fazer login
-          </Link>
-        </Button>
-      </div>
-    </AuthCard>
+      </AuthCard>
+    </>
   )
 }

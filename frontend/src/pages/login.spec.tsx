@@ -102,3 +102,12 @@ describe('Login page', () => {
     expect(await screen.findByRole('heading', { name: 'Criar conta' })).toBeInTheDocument()
   })
 })
+
+describe('Login page title', () => {
+  it('sets the page title', async () => {
+    renderApp('/')
+
+    await screen.findByRole('heading', { name: 'Fazer login' })
+    expect(document.title).toBe('Entrar | Financy')
+  })
+})

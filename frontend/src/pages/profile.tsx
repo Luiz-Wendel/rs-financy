@@ -6,6 +6,7 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import { UpdateProfileMutation } from '@/api/auth'
+import { PageTitle } from '@/components/page-title'
 import { Avatar } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
@@ -28,6 +29,7 @@ export function ProfilePage() {
 
   return (
     <Card className="mx-auto flex w-full max-w-112 flex-col gap-8 p-6 sm:p-8">
+      <PageTitle>Perfil</PageTitle>
       <header className="flex flex-col items-center gap-6 text-center">
         <Avatar name={user.name} size="lg" />
         <div className="flex min-w-0 flex-col gap-0.5">
