@@ -1,6 +1,8 @@
 import { requireAuth } from '../../context.js'
 import type { Resolvers } from '../../types.js'
-import { listCategories } from './category.service.js'
+import { validateInput } from '../../validation.js'
+import { createCategorySchema } from './category.schemas.js'
+import { createCategory, listCategories } from './category.service.js'
 
 export const categoryTypeDefs = /* GraphQL */ `
   type Category {
@@ -19,14 +21,33 @@ export const categoryTypeDefs = /* GraphQL */ `
     updatedAt: DateTime!
   }
 
+  input CreateCategoryInput {
+    title: String!
+    description: String
+    icon: String!
+    color: String!
+  }
+
   extend type Query {
     "Categories of the logged user, ordered by title"
     categories: [Category!]!
+  }
+
+  extend type Mutation {
+    createCategory(input: CreateCategoryInput!): Category!
   }
 `
 
 export const categoryResolvers: Resolvers = {
   Query: {
     categories: (_, __, context) => listCategories(context.prisma, requireAuth(context)),
+  },
+  Mutation: {
+    createCategory: (_, { input }, context) =>
+      createCategory(
+        context.prisma,
+        requireAuth(context),
+        validateInput(createCategorySchema, input),
+      ),
   },
 }

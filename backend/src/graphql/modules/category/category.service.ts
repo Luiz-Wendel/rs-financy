@@ -1,5 +1,6 @@
 import type { Category } from '../../../generated/prisma/client.js'
 import type { GraphQLContext } from '../../context.js'
+import type { CreateCategoryInput } from './category.schemas.js'
 
 type Prisma = GraphQLContext['prisma']
 
@@ -48,4 +49,10 @@ export async function listCategories(prisma: Prisma, userId: string) {
   })
 
   return withStats(prisma, categories)
+}
+
+export async function createCategory(prisma: Prisma, userId: string, input: CreateCategoryInput) {
+  const category = await prisma.category.create({ data: { ...input, userId } })
+
+  return { ...category, transactionsCount: 0, totalAmount: 0 }
 }
