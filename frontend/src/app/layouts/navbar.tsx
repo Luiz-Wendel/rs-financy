@@ -17,14 +17,16 @@ export function Navbar() {
 
   return (
     <header className="border-b border-gray-200 bg-white px-4 py-4 sm:px-12">
-      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-4">
-        <Link to={paths.home} aria-label="Ir para o dashboard">
-          <Logo className="h-6" />
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4">
+        <Link to={paths.home} aria-label="Ir para o dashboard" className="shrink-0">
+          {/* Small screens only have room for the symbol */}
+          <Logo variant="icon" className="size-8 sm:hidden" />
+          <Logo className="hidden h-6 sm:block" />
         </Link>
 
         <nav
           aria-label="Principal"
-          className="flex items-center gap-5 sm:absolute sm:left-1/2 sm:-translate-x-1/2"
+          className="flex items-center gap-3 sm:absolute sm:left-1/2 sm:-translate-x-1/2 sm:gap-5"
         >
           {links.map(({ to, label }) => (
             <NavLink
