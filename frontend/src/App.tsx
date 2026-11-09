@@ -1,9 +1,9 @@
-import { Logo } from '@/components/logo'
+import { createBrowserRouter, RouterProvider } from 'react-router'
+
+import { routes } from './app/routes'
+
+const router = createBrowserRouter(routes)
 
 export function App() {
-  return (
-    <main className="flex min-h-screen items-center justify-center">
-      <Logo />
-    </main>
-  )
+  return <RouterProvider router={router} />
 }

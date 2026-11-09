@@ -1,13 +1,17 @@
-import { screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 
 import { App } from './App'
-import { renderWithProviders } from './test/render'
+import { AppProviders } from './app/providers'
 
 describe('App', () => {
-  it('renders the Financy logo', () => {
-    renderWithProviders(<App />)
+  it('renders the login page for visitors', async () => {
+    render(
+      <AppProviders>
+        <App />
+      </AppProviders>,
+    )
 
-    expect(screen.getByRole('img', { name: 'Financy' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Fazer login' })).toBeInTheDocument()
   })
 })
