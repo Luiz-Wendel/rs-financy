@@ -55,6 +55,23 @@ export const categoryTypeDefs = /* GraphQL */ `
 `
 
 export const categoryResolvers: Resolvers = {
+  // Stats come precomputed from the category queries; when a category is loaded through
+  // another type (e.g. Transaction.category) they are computed on demand.
+  Category: {
+    transactionsCount: (category, _, { prisma }) =>
+      category.transactionsCount ??
+      prisma.transaction.count({ where: { categoryId: category.id } }),
+    totalAmount: async (category, _, { prisma }) => {
+      if (category.totalAmount !== undefined) return category.totalAmount
+
+      const { _sum } = await prisma.transaction.aggregate({
+        where: { categoryId: category.id },
+        _sum: { amount: true },
+      })
+
+      return _sum.amount ?? 0
+    },
+  },
   Query: {
     categories: (_, __, context) => listCategories(context.prisma, requireAuth(context)),
   },

@@ -1,4 +1,4 @@
-import { DateTimeResolver } from 'graphql-scalars'
+import { DateResolver, DateTimeResolver } from 'graphql-scalars'
 
 import type { Resolvers } from '../../types.js'
 
@@ -7,10 +7,14 @@ export const baseTypeDefs = /* GraphQL */ `
   "ISO 8601 date-time string, e.g. 2026-11-09T12:00:00.000Z"
   scalar DateTime
 
+  "Calendar date without time, e.g. 2026-11-09"
+  scalar Date
+
   type Query
   type Mutation
 `
 
 export const baseResolvers: Resolvers = {
   DateTime: DateTimeResolver,
+  Date: DateResolver,
 }
