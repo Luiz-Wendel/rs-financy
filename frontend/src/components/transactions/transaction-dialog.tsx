@@ -154,7 +154,7 @@ function TransactionFormContent({
                 value: category.id,
                 label: category.title,
               }))}
-              value={field.value || undefined}
+              value={field.value}
               onValueChange={field.onChange}
               helper={
                 data && categories.length === 0
