@@ -12,6 +12,8 @@ const config: CodegenConfig = {
       config: {
         useTypeImports: true,
         enumsAsTypes: true,
+        // Apollo's cache relies on __typename (e.g. when writing query results)
+        nonOptionalTypename: true,
         scalars: { DateTime: 'string', Date: 'string' },
       },
     },
