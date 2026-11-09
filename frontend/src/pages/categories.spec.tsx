@@ -78,3 +78,19 @@ describe('Categories page', () => {
     expect(screen.getByText('Categoria mais utilizada').parentElement).toHaveTextContent('—')
   })
 })
+
+describe('Categories page dialogs', () => {
+  it('opens the form to create and to edit a category', async () => {
+    loginAs()
+    mockCategories()
+    const { user } = renderApp('/categorias')
+
+    await user.click(await screen.findByRole('button', { name: 'Nova categoria' }))
+    expect(await screen.findByRole('dialog', { name: 'Nova categoria' })).toBeInTheDocument()
+    await user.keyboard('{Escape}')
+
+    await user.click(await screen.findByRole('button', { name: 'Editar Transporte' }))
+    expect(await screen.findByRole('dialog', { name: 'Editar categoria' })).toBeInTheDocument()
+    expect(screen.getByLabelText('Título')).toHaveValue('Transporte')
+  })
+})

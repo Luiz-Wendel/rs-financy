@@ -31,3 +31,19 @@ export const DeleteCategoryMutation = graphql(`
     deleteCategory(id: $id)
   }
 `)
+
+export const CreateCategoryMutation = graphql(`
+  mutation CreateCategory($input: CreateCategoryInput!) {
+    createCategory(input: $input) {
+      ...CategoryFields
+    }
+  }
+`)
+
+export const UpdateCategoryMutation = graphql(`
+  mutation UpdateCategory($id: ID!, $input: UpdateCategoryInput!) {
+    updateCategory(id: $id, input: $input) {
+      ...CategoryFields
+    }
+  }
+`)

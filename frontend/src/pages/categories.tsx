@@ -5,6 +5,7 @@ import { toast } from 'sonner'
 
 import { CategoriesQuery, DeleteCategoryMutation } from '@/api/categories'
 import { CategoryCard } from '@/components/categories/category-card'
+import { CategoryDialog } from '@/components/categories/category-dialog'
 import { CategoryStatCard } from '@/components/categories/category-stat-card'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { PageHeader } from '@/components/page-header'
@@ -36,8 +37,7 @@ export function CategoriesPage() {
   const { data } = useQuery(CategoriesQuery)
   const categories = data?.categories
   const [categoryToDelete, setCategoryToDelete] = useState<CategoryFieldsFragment>()
-  // The category dialog (create/edit) is added with the "Nova categoria" form
-  const [, setCategoryToEdit] = useState<CategoryFieldsFragment | 'new'>()
+  const [categoryToEdit, setCategoryToEdit] = useState<CategoryFieldsFragment | 'new'>()
   const [deleteCategory, { loading: isDeleting }] = useMutation(DeleteCategoryMutation, {
     update: invalidateFinanceData,
   })
@@ -121,6 +121,12 @@ export function CategoriesPage() {
           ))}
         </section>
       )}
+
+      <CategoryDialog
+        open={Boolean(categoryToEdit)}
+        onOpenChange={(open) => !open && setCategoryToEdit(undefined)}
+        category={categoryToEdit === 'new' ? undefined : categoryToEdit}
+      />
 
       <ConfirmDialog
         open={Boolean(categoryToDelete)}
