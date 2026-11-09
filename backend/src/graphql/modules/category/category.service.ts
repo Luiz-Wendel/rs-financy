@@ -22,7 +22,10 @@ async function getStats(prisma: Prisma, categoryIds: string[]) {
   return new Map(
     groups.map((group) => [
       group.categoryId,
-      { transactionsCount: group._count._all, totalAmount: group._sum.amount ?? 0 },
+      {
+        transactionsCount: group._count._all,
+        totalAmount: Number(group._sum.amount ?? 0),
+      },
     ]),
   )
 }

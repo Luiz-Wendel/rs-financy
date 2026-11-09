@@ -57,6 +57,6 @@ describe('data model', () => {
       amount: 1234567,
     })
 
-    expect(transaction.amount).toBe(1234567)
+    expect(transaction.amount).toBe(1234567n)
   })
 })

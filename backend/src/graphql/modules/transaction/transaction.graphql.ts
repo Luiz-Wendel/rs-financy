@@ -89,6 +89,8 @@ export const transactionTypeDefs = /* GraphQL */ `
 
 export const transactionResolvers: Resolvers = {
   Transaction: {
+    // Stored as BigInt; amounts fit safely in a JS number (up to 2^53)
+    amount: (transaction) => Number(transaction.amount),
     category: (transaction, _, { prisma }) =>
       transaction.category ??
       prisma.category.findUniqueOrThrow({ where: { id: transaction.categoryId } }),

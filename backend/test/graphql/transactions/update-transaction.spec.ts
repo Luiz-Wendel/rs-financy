@@ -102,7 +102,7 @@ describe('updateTransaction mutation', () => {
     const transaction = await prisma.transaction.findUniqueOrThrow({
       where: { id: transactionId },
     })
-    expect(transaction.amount).toBe(8950)
+    expect(transaction.amount).toBe(8950n)
   })
 
   it("fails with NOT_FOUND when moving to another user's category", async () => {

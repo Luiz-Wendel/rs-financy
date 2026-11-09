@@ -49,8 +49,9 @@ model Transaction {
   id          String          @id @default(cuid())
   description String
   type        TransactionType
-  /// Amount in cents (always positive; the sign comes from `type`)
-  amount      Int
+  /// Amount in cents (always positive; the sign comes from `type`).
+  /// BigInt because Int is 32-bit (max ~R$ 21 mi in cents).
+  amount      BigInt
   date        DateTime
   categoryId  String          @map("category_id")
   userId      String          @map("user_id")

@@ -14,7 +14,7 @@ async function sumByType(prisma: Prisma, where: PrismaTypes.TransactionWhereInpu
   })
 
   const sumOf = (type: 'INCOME' | 'EXPENSE') =>
-    groups.find((group) => group.type === type)?._sum.amount ?? 0
+    Number(groups.find((group) => group.type === type)?._sum.amount ?? 0)
 
   return { income: sumOf('INCOME'), expenses: sumOf('EXPENSE') }
 }

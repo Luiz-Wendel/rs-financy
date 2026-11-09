@@ -69,7 +69,7 @@ export const categoryResolvers: Resolvers = {
         _sum: { amount: true },
       })
 
-      return _sum.amount ?? 0
+      return Number(_sum.amount ?? 0)
     },
   },
   Query: {
