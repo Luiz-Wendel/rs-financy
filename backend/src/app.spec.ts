@@ -1,0 +1,61 @@
+import type { AddressInfo } from 'node:net'
+
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
+
+import { createApp, parseCorsOrigin } from './app.js'
+
+describe('parseCorsOrigin', () => {
+  it('splits a comma-separated list of origins', () => {
+    expect(parseCorsOrigin('http://localhost:5173, https://financy.app')).toEqual([
+      'http://localhost:5173',
+      'https://financy.app',
+    ])
+  })
+
+  it('allows any origin when "*" is present', () => {
+    expect(parseCorsOrigin('*')).toBe(true)
+  })
+})
+
+describe('HTTP server', () => {
+  let app: Awaited<ReturnType<typeof createApp>>
+  let url: string
+
+  beforeAll(async () => {
+    app = await createApp()
+    await new Promise<void>((resolve) => app.httpServer.listen(0, resolve))
+    const { port } = app.httpServer.address() as AddressInfo
+    url = `http://localhost:${port}/graphql`
+  })
+
+  afterAll(async () => {
+    await app.apollo.stop()
+  })
+
+  function postQuery(origin: string) {
+    return fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json', origin },
+      body: JSON.stringify({ query: '{ health }' }),
+    })
+  }
+
+  it('serves GraphQL at /graphql', async () => {
+    const response = await postQuery('http://localhost:5173')
+
+    expect(response.status).toBe(200)
+    expect(await response.json()).toEqual({ data: { health: 'ok' } })
+  })
+
+  it('sends CORS headers for the allowed origin', async () => {
+    const response = await postQuery('http://localhost:5173')
+
+    expect(response.headers.get('access-control-allow-origin')).toBe('http://localhost:5173')
+  })
+
+  it('does not send CORS headers for other origins', async () => {
+    const response = await postQuery('http://evil.example.com')
+
+    expect(response.headers.get('access-control-allow-origin')).toBeNull()
+  })
+})
