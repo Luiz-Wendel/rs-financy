@@ -82,3 +82,12 @@ export async function updateCategory(
 
   return categoryWithStats
 }
+
+/** Deletes the category and, by cascade, all of its transactions. */
+export async function deleteCategory(prisma: Prisma, userId: string, id: string) {
+  await findOwnedCategory(prisma, userId, id)
+
+  await prisma.category.delete({ where: { id } })
+
+  return id
+}

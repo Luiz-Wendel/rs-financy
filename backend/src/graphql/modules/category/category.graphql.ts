@@ -2,7 +2,12 @@ import { requireAuth } from '../../context.js'
 import type { Resolvers } from '../../types.js'
 import { validateInput } from '../../validation.js'
 import { createCategorySchema, updateCategorySchema } from './category.schemas.js'
-import { createCategory, listCategories, updateCategory } from './category.service.js'
+import {
+  createCategory,
+  deleteCategory,
+  listCategories,
+  updateCategory,
+} from './category.service.js'
 
 export const categoryTypeDefs = /* GraphQL */ `
   type Category {
@@ -44,6 +49,8 @@ export const categoryTypeDefs = /* GraphQL */ `
   extend type Mutation {
     createCategory(input: CreateCategoryInput!): Category!
     updateCategory(id: ID!, input: UpdateCategoryInput!): Category!
+    "Deletes the category and all of its transactions. Returns the deleted id."
+    deleteCategory(id: ID!): ID!
   }
 `
 
@@ -65,5 +72,7 @@ export const categoryResolvers: Resolvers = {
         id,
         validateInput(updateCategorySchema, input),
       ),
+    deleteCategory: (_, { id }, context) =>
+      deleteCategory(context.prisma, requireAuth(context), id),
   },
 }
