@@ -11,6 +11,8 @@ export interface TextFieldProps extends ComponentProps<'input'> {
   helper?: string
   /** Error message; replaces the helper and highlights the field */
   error?: string
+  /** Element before the value, e.g. a currency symbol */
+  startAdornment?: ReactNode
   /** Element after the value, e.g. a toggle button */
   endAdornment?: ReactNode
 }
@@ -21,6 +23,7 @@ export function TextField({
   icon: Icon,
   helper,
   error,
+  startAdornment,
   endAdornment,
   className,
   id,
@@ -57,6 +60,8 @@ export function TextField({
             )}
           />
         )}
+
+        {startAdornment}
 
         <input
           id={inputId}
