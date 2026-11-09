@@ -27,6 +27,7 @@
     "@eslint/js": "^10.0.1",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^26.6.6",
     "@vitest/coverage-v8": "^5.1.0",
     "eslint": "^10.14.0",
@@ -50,9 +51,12 @@
     "@as-integrations/express5": "^1.1.2",
     "@prisma/adapter-better-sqlite3": "^7.10.1",
     "@prisma/client": "^7.10.1",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "express": "^5.3.0",
     "graphql": "^16.15.0",
+    "graphql-scalars": "^2.0.1",
+    "jsonwebtoken": "^9.0.3",
     "zod": "^4.6.7"
   }
 }
