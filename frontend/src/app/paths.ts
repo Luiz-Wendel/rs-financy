@@ -4,4 +4,6 @@ export const paths = {
   transactions: '/transacoes',
   categories: '/categorias',
   profile: '/perfil',
+  /** Development only */
+  styleGuide: '/style-guide',
 } as const

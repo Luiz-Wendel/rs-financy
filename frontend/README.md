@@ -32,6 +32,10 @@ npm run dev
 
 A aplicação fica disponível em `http://localhost:5173`. Com o seed da API (`npm run db:seed` no backend) é possível entrar com `demo@financy.app` / `12345678`.
 
+## Style Guide
+
+Em desenvolvimento, `http://localhost:5173/style-guide` mostra os tokens (cores e tipografia) e todos os componentes do Style Guide do Figma, com seus estados. A página é carregada sob demanda e não entra no build de produção.
+
 ## Variáveis de ambiente
 
 | Variável           | Descrição               | Exemplo                         |

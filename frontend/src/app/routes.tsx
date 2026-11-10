@@ -31,5 +31,14 @@ export const routes: RouteObject[] = [
       },
     ],
   },
+  // Visual documentation of the components; lazy-loaded and left out of production builds
+  ...(import.meta.env.DEV
+    ? [
+        {
+          path: paths.styleGuide,
+          lazy: async () => ({ Component: (await import('@/pages/style-guide')).StyleGuidePage }),
+        },
+      ]
+    : []),
   { path: '*', element: <Navigate to={paths.home} replace /> },
 ]
